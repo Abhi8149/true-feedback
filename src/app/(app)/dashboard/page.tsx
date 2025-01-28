@@ -2,8 +2,6 @@
 
 import MessageCard from "@/components/MessageCard";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { message } from "@/model/User";
@@ -11,7 +9,7 @@ import { accpetMessageSchema } from "@/Schema/acceptMessageSchema";
 import { APIResponse } from "@/types/Apiresponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
-import { Loader, Loader2, RefreshCcw, WineOff } from "lucide-react";
+import {Loader2, RefreshCcw} from "lucide-react";
 import { User } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
@@ -21,13 +19,13 @@ import { useForm } from "react-hook-form";
 
 
 const dashboard = () => {
-  const [message,setmessage]=useState<message[]>([]);
+  const [message,setMessage]=useState<message[]>([]);
   const [isLoading,setIsLoading]=useState(false);
   const [isSwitchLoading,setIsSwithcLoading]=useState(false);
   const toast=useToast()
   const {data:session}=useSession();
   const handleRemoveMessage=(messageId:string)=>{
-    setmessage(message.filter((message)=>message._id!==messageId))
+    setMessage(message.filter((message)=>message._id!==messageId))
   }
 
   const form=useForm({
@@ -62,7 +60,7 @@ const dashboard = () => {
     setIsSwithcLoading(true);
    try {
     const response=await axios.get('/api/get-message');
-    setmessage(response.data.messages || []);
+    setMessage(response.data.messages || []);
 
     if(refresh){
       toast.toast({
@@ -97,12 +95,10 @@ const dashboard = () => {
 
   const handleSwitchChange=async()=>{
     try {
-      console.log(acceptmessages)
       const response=await axios.post<APIResponse>('/api/accept-message',{
         acceptingmessage:!acceptmessages
       });
       setValue('acceptMessage',!acceptmessages);
-      console.log(response.data)
       toast.toast({
         title:response.data.message
       })
@@ -156,7 +152,7 @@ const dashboard = () => {
             className="bg-black text-white p-3 rounded-full hover:bg-gray-800 transition-all w-full sm:w-auto"
           >
             {isLoading ? (
-              <Loader className="h-5 w-5 animate-spin" />
+              <Loader2 className="h-5 w-5 animate-spin" />
             ) : (
               <RefreshCcw className="h-5 w-5" />
             )}
@@ -241,4 +237,4 @@ const dashboard = () => {
   );
 }
 
-export default dashboard
+export default dashboard;

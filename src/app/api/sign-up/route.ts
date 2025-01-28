@@ -25,7 +25,7 @@ export async function POST(request:Request){
         //Or the user is visiting second time and he is already registered but not verified yet
         const exisitingUserByEmail=await Usermodel.findOne({email});
         //This generated the verifcation code of 6 digits
-        let verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
+        const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
         if(exisitingUserByEmail){
             //User is visiting second time and he is already registered but not verified yet
             if(exisitingUserByEmail.isVerified){
@@ -46,7 +46,7 @@ export async function POST(request:Request){
         
             //User is visiting first time and he is not registered yet
             const hashedpassword=(await bcrypt.hash(password,10)).toString();
-            let expiryDate=new Date();
+            const expiryDate=new Date();
             expiryDate.setHours(expiryDate.getHours()+1)
 
             const newuser=await Usermodel.create({

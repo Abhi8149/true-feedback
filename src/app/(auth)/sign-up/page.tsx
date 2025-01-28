@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useEffect, useState } from "react"
-import { useDebounceCallback } from 'usehooks-ts'
 import axios from 'axios'
 import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
@@ -23,11 +22,11 @@ import { Loader2 } from "lucide-react"
 import { APIResponse } from "@/types/Apiresponse"
 import Link from "next/link"
 
-export default  function page() {
-  const [username, setusername] = useState('')
-  const [usernamemessage, setusernamemessage] = useState('')
-  const [isCheckingUsername, setisCheckingUsername] = useState(false)
-  const [isSubmitted, setisSubmitted] = useState(false)
+export default  function SignUpPage() {
+  const [username, setUsername] = useState('')
+  const [usernamemessage, setUsernamemessage] = useState('')
+  const [isCheckingUsername, setIsCheckingUsername] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
   const toast=useToast()
   const router=useRouter()
 
@@ -39,22 +38,21 @@ export default  function page() {
       password:""
     },
   })
-  const debounced = useDebounceCallback(setusername, 300)
 
   useEffect(() => {
    const checkingusername=async()=>{
     if(username.length!=0){
-      setisCheckingUsername(true)
-      setusernamemessage('')
+      setIsCheckingUsername(true)
+      setUsernamemessage('')
       try {
       const response=await axios.get<APIResponse>(`/api/check-valid-username?username=${username}`)
       console.log(response)
-       setusernamemessage(response.data.message) 
-       setisCheckingUsername(false)
+       setUsernamemessage(response.data.message) 
+       setIsCheckingUsername(false)
       } catch (error:any) {
         console.log(error.message)
-        setisCheckingUsername(false)
-        setusernamemessage('something went wrong')
+        setIsCheckingUsername(false)
+        setUsernamemessage('something went wrong')
       }
       
      } 
@@ -63,7 +61,7 @@ export default  function page() {
   }, [username])
 
   const onSubmit = async (data:z.infer<typeof signUpSchmea>) => {
-    setisSubmitted(true);
+    setIsSubmitted(true);
     console.log(data)
     try {
       const response = await axios.post<APIResponse>('/api/sign-up', data);
@@ -89,7 +87,7 @@ export default  function page() {
       })
     }
     finally{
-      setisSubmitted(false)
+      setIsSubmitted(false)
     }
   };
 
@@ -119,7 +117,7 @@ export default  function page() {
                     {...field} 
                     onChange={(e)=>{
                       field.onChange(e)
-                      setusername(e.target.value)
+                      setUsername(e.target.value)
                     }}
                      className="border-black focus:ring-1 focus:ring-black transition-all"
                   />

@@ -1,19 +1,8 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import AuthProvider from "@/context/AuthProvider";
 import { Toaster } from "@/components/ui/toaster"
-import Navbar from "@/components/Navbar";
-// const geistSans = localFont({
-//   src: "./GeistVF.woff",
-//   variable: "--font-geist-sans",
-//   weight: "100 900",
-// });
-// const geistMono = localFont({
-//   src: "./GeistMonoVF.woff",
-//   variable: "--font-geist-mono",
-//   weight: "100 900",
-// });
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -29,7 +18,6 @@ export default function RootLayout({
     <html lang="en">
       <AuthProvider>
       <body
-        // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
         <Toaster />

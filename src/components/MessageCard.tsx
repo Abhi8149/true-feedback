@@ -3,8 +3,6 @@ import React from 'react';
 import dayjs from 'dayjs'
 import {
     Card,
-    CardContent,
-    CardDescription,
     CardFooter,
     CardHeader,
     CardTitle,

@@ -19,7 +19,7 @@ import { signInSchema } from "@/Schema/signInSchema"
 import { signIn } from "next-auth/react"
 import Link from "next/link"
 
-export default  function page() {
+export default  function SignInPage() {
   const toast=useToast()
   const router=useRouter()
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -49,11 +49,6 @@ export default  function page() {
         })
       }
       if(result?.url){
-        // toast.toast({
-        //   title:'Login failed',
-        //   description:'Incorrect email or password',
-        //   variant:'destructive'
-        // }) 
         router.replace('/dashboard')
       }
     } catch (error:any) {

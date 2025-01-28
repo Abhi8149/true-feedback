@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai"
 import { NextRequest } from "next/server";
 
-export async function POST(request:NextRequest){
+export async function POST(){
   // const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
   const genAI = new GoogleGenerativeAI('AIzaSyAlLj7tP7RpSNcKthiqmmT51jB_UXyVYV8');
 

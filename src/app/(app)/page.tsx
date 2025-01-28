@@ -1,5 +1,4 @@
 'use client';
-import Image from "next/image";
 import * as React from "react"
 import Autoplay from "embla-carousel-autoplay";
 import messages from '@/message.json';

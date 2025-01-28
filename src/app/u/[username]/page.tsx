@@ -1,7 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button'
-import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/form';
-import { Input } from '@/components/ui/input'
+import {Form, FormControl,FormField, FormItem} from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { messagesSchema } from '@/Schema/messageSchema';
@@ -15,7 +14,6 @@ import {useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const sendMessage = () => {
- const [content,setContent]=useState('');
  const [isLoading,setIsLoading]=useState(false);
  const [isLoading2,setIsLoading2]=useState(false);
  
