@@ -11,15 +11,25 @@ import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { useEffect,useState } from 'react';
 
 const verifyAccount = () => {
   const router=useRouter();
   const params=useParams<{username:string}>()
+  const [isMounted, setIsMounted] = useState(false);
   const form = useForm<z.infer<typeof verifycodeschema>>({
     resolver: zodResolver(verifycodeschema)
   })
   const toast=useToast();
 
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Don't render until mounted
+  if (!isMounted) {
+    return null;
+  }
   const onSubmit=async(data:z.infer<typeof verifycodeschema>)=>{
       try {
         const response=await axios.post<APIResponse>(`/api/verify-code`,{
