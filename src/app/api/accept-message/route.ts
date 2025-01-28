@@ -20,16 +20,13 @@ export async function POST(request:Request){
   
   const user:User=session?.user as User;
   const userId=user.id;
-  // console.log(userId)
   try {
     const {acceptingmessage}=await request.json();
-    console.log(acceptingmessage)
     const updateduser=await Usermodel.findByIdAndUpdate(
         userId,
         {isAccepetingMessage:acceptingmessage},
         {new:true}
     );
-    console.log('updated uer :',updateduser)
     if(!updateduser){
         return Response.json(
             {success:false,message:'User does not exist'},
@@ -65,10 +62,8 @@ export async function GET(){
     
     const user:User=session?.user as User;
     const userId=user.id;
-    // console.log(userId)
     try {
     const newuser=await Usermodel.findById({_id:userId});
-    // console.log(newuser);
     if(!newuser){
         return Response.json({
             success:false,
