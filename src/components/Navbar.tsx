@@ -37,7 +37,7 @@ const Navbar = () => {
       {session ? (
         <div className="flex items-center space-x-4">
           <h2 className="text-base sm:text-lg font-medium text-cyan-300">
-            Welcome {user?.email?.split('@')[0]}
+            Welcome&nbsp;{user?.username}
           </h2>
           <Link href="/dashboard" className="text-base sm:text-lg font-medium text-cyan-300">
             Dashboard
