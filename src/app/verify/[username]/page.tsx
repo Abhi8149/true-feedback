@@ -12,10 +12,12 @@ import React from 'react'
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useEffect,useState } from 'react';
+import { Loader } from 'lucide-react';
 
 const verifyAccount = () => {
   const router=useRouter();
   const params=useParams<{username:string}>()
+  const [Loading, setLoading] = useState(false)
   const [isMounted, setIsMounted] = useState(false);
   const form = useForm<z.infer<typeof verifycodeschema>>({
     resolver: zodResolver(verifycodeschema)
@@ -31,6 +33,7 @@ const verifyAccount = () => {
     return null;
   }
   const onSubmit=async(data:z.infer<typeof verifycodeschema>)=>{
+      setLoading(true);
       try {
         const response=await axios.post<APIResponse>(`/api/verify-code`,{
             username:params.username,
@@ -60,6 +63,9 @@ const verifyAccount = () => {
           description: "Something went wrong to verify code",
           variant:'destructive'
         })
+      }
+      finally{
+        setLoading(false)
       }
   }
 return (
@@ -93,12 +99,13 @@ return (
                 </FormItem>
               )}
             />
-            <Button 
-              type="submit"
-              className="w-full bg-black text-white hover:bg-gray-800 transition-colors"
-            >
-              Verify
-            </Button>
+        {Loading ? (
+          <Loader className="mx-auto" />
+        ) : (
+          <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800 transition-colors">
+            Sign In
+          </Button>
+        )}
           </form>
         </Form>
       </div>

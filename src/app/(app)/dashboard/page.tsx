@@ -1,6 +1,7 @@
 'use client';
 
 import MessageCard from "@/components/MessageCard";
+import MessageSkeleton from "@/components/MessageSkeleton";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
@@ -12,6 +13,7 @@ import axios, { AxiosError } from "axios";
 import {Loader2, RefreshCcw} from "lucide-react";
 import { User } from "next-auth";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -24,6 +26,7 @@ const dashboard = () => {
   const [isSwitchLoading,setIsSwithcLoading]=useState(false);
   const toast=useToast()
   const {data:session}=useSession();
+  const router=useRouter();
   const handleRemoveMessage=(messageId:string)=>{
     setMessage(message.filter((message)=>message._id!==messageId))
   }
@@ -93,6 +96,9 @@ const dashboard = () => {
   fetchmessages()
   }, [session,fetchAcceptMessages,fetchmessages]);
 
+
+  
+
   const handleSwitchChange=async()=>{
     try {
       const response=await axios.post<APIResponse>('/api/accept-message',{
@@ -113,7 +119,12 @@ const dashboard = () => {
     });
     }
   }
-
+  useEffect(() => {
+    if(!session || !session.user){
+      return;
+      }
+    handleSwitchChange()
+  }, [])
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
     toast.toast({
@@ -124,9 +135,8 @@ const dashboard = () => {
 
 
   if(!session || !session.user){
-    return <div>
-      <h1>Please Login</h1>
-    </div>
+    router.replace('/')
+    return null;
   }
 
   const user:User=session.user as User;
@@ -209,27 +219,33 @@ const dashboard = () => {
   
         {/* Messages Grid */}
         <div className="space-y-4">
-          {message.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {message.map((message) => (
-                <div 
-                  key={message._id} 
-                  className="bg-white shadow-sm rounded-lg p-6 hover:shadow-md transition-shadow"
-                >
-                  <MessageCard
-                    message={message}
-                    onRemoveMessage={handleRemoveMessage}
-                  />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="bg-white shadow-sm rounded-lg p-8 text-center">
-              <p className="text-base sm:text-lg text-gray-500">
-                No messages to display
-              </p>
-            </div>
-          )}
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+             {[...Array(message.length)].map((_, index) => (
+              <MessageSkeleton key={index} />
+            ))}
+          </div>
+        ) : message.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {message.map((message) => (
+              <div 
+                key={message._id} 
+                className="bg-white shadow-sm rounded-lg p-6 hover:shadow-md transition-shadow"
+              >
+                <MessageCard
+                  message={message}
+                  onRemoveMessage={handleRemoveMessage}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="bg-white shadow-sm rounded-lg p-8 text-center">
+            <p className="text-base sm:text-lg text-gray-500">
+              No messages to display
+            </p>
+          </div>
+        )}
         </div>
       </div>
     </div>

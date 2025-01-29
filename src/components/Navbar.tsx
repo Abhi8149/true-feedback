@@ -8,7 +8,6 @@ const Navbar = () => {
   const { data: session } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const user = session?.user;
-
   return (
 
 <div>
@@ -37,13 +36,17 @@ const Navbar = () => {
       {session ? (
         <div className="flex items-center space-x-4">
           <h2 className="text-base sm:text-lg font-medium text-cyan-300">
-            Welcome&nbsp;{user?.username}
+            Welcome {user?.username}
           </h2>
           <Link href="/dashboard" className="text-base sm:text-lg font-medium text-cyan-300">
-            Dashboard
+            <Button className='bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-md transition duration-300 ease-in-out transform hover:scale-105'>
+            dashboard
+              
+            </Button>
           </Link>
           <Button
-            onClick={() => signOut()}
+            onClick={() => signOut()
+            }
             className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition duration-300 ease-in-out transform hover:scale-105"
           >
             Logout
@@ -58,65 +61,93 @@ const Navbar = () => {
       )}
     </div>
 
-    {/* Mobile Menu Toggle */}
-    <div className="md:hidden">
-      <button
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="focus:outline-none"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-8 w-8"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
-      </button>
-    </div>
+{/* Mobile Menu Button */}
+<div className="md:hidden">
+  <button
+    onClick={() => setIsMenuOpen(!isMenuOpen)}
+    className="p-2 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-black"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-6 w-6 text-white transition-transform duration-200 ease-in-out"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      style={{ transform: isMenuOpen ? 'rotate(90deg)' : 'rotate(0)' }}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M4 6h16M4 12h16M4 18h16"
+      />
+    </svg>
+  </button>
+</div>
 
-    {isMenuOpen && (
-      <div className="absolute top-16 left-0 w-full bg-black text-white p-4 flex flex-col items-center space-y-4 md:hidden">
+{/* Mobile Menu */}
+<div 
+  className={`fixed inset-0 z-50 md:hidden transition-opacity duration-300 ${
+    isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+  }`}
+>
+  {/* Backdrop */}
+  <div 
+    className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+    onClick={() => setIsMenuOpen(false)}
+  />
+  
+  {/* Menu Content */}
+  <div 
+    className={`absolute top-16 left-0 w-full transform transition-transform duration-300 ease-in-out ${
+      isMenuOpen ? 'translate-y-0' : '-translate-y-full'
+    }`}
+  >
+    <div className="mx-4 rounded-lg bg-white shadow-lg border border-gray-200 overflow-hidden">
+      <div className="p-4 space-y-4">
         {session ? (
           <>
-            <h2 className="text-lg font-medium text-cyan-300">
-              Welcome {user?.name}
-            </h2>
+            <div className="p-4 border-b border-gray-200">
+              <h2 className="text-lg font-medium text-black text-center">
+                Welcome, <span className="text-cyan-600">{user?.username}</span>
+              </h2>
+            </div>
+            
             <Link
               href="/dashboard"
-              className="text-lg font-medium text-cyan-300"
               onClick={() => setIsMenuOpen(false)}
+              className="block py-3 px-4 text-center text-black hover:bg-gray-200 rounded-md transition-colors "
             >
               Dashboard
             </Link>
-            <Button
-              onClick={() => {
-                signOut();
-                setIsMenuOpen(false);
-              }}
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition duration-300 ease-in-out"
-            >
-              Logout
-            </Button>
+            
+            <div className="pt-2 border-t border-gray-200">
+              <Button
+                onClick={() => {
+                  signOut();
+                  setIsMenuOpen(false);
+                }}
+                className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-md transition-all duration-300 transform hover:scale-[0.98]"
+              >
+                Logout
+              </Button>
+            </div>
           </>
         ) : (
           <Link href="/sign-in" passHref>
             <Button
-              className="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-md transition duration-300 ease-in-out"
               onClick={() => setIsMenuOpen(false)}
+              className="w-full bg-black hover:bg-gray-800 text-white py-2 rounded-md transition-all duration-300 transform hover:scale-[0.98]"
             >
               Login
             </Button>
           </Link>
         )}
       </div>
-    )}
+    </div>
+  </div>
+</div>
+  
   </nav>
 </div>
 

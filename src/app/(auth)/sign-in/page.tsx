@@ -18,10 +18,12 @@ import { useToast } from "@/hooks/use-toast"
 import { signInSchema } from "@/Schema/signInSchema"
 import { signIn } from "next-auth/react"
 import Link from "next/link"
-
+import { useState } from "react"
+import { Loader } from "lucide-react"
 export default  function SignInPage() {
   const toast=useToast()
   const router=useRouter()
+  const [Loading, setLoading] = useState(false)
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -33,14 +35,13 @@ export default  function SignInPage() {
 
 
   const onSubmit = async (data:z.infer<typeof signInSchema>) => {
-    console.log(data)
+    setLoading(true);
     try {
       const result=await signIn('credentials',{
         redirect:false,
         identifier:data.identifier,
         password:data.password
       })
-    console.log(result);
       if(result?.error){
         toast.toast({
           title:'Login failed',
@@ -57,6 +58,9 @@ export default  function SignInPage() {
         description:error.message,
         variant:'destructive'
       }) 
+    }
+    finally{
+      setLoading(false)
     }
     
   };
@@ -116,12 +120,13 @@ export default  function SignInPage() {
             </FormItem>
           )}
         />
-        <Button 
-          type="submit" 
-          className="w-full bg-black text-white hover:bg-gray-800 transition-colors"
-        >
-          Sign In
-        </Button>
+        {Loading ? (
+          <Loader className="mx-auto" />
+        ) : (
+          <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800 transition-colors">
+            Sign In
+          </Button>
+        )}
       </form>
     </Form>
     
