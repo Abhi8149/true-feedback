@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Anonymous Feedback Platform
 
-## Getting Started
+This is a full-stack anonymous feedback platform built using **Next.js** and **Node.js**, with **MongoDB** as the database. The platform allows users to create an account and receive anonymous messages through a shareable link. It includes authentication, email verification using **Resend**, unique username enforcement using debouncing, and **Gemini AI** for message suggestions. The UI is designed with **ShadCN** for a modern and clean experience.
 
-First, run the development server:
+## Why This Platform?
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+In today's digital world, open and honest communication can be challenging. Many people hesitate to share feedback due to fear of judgment, social pressure, or professional consequences. This platform solves that problem by providing a safe and anonymous way for users to receive genuine feedback from friends, colleagues, or anyone they trust.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Whether it's for personal growth, workplace improvement, or fun social interactions, this platform ensures that messages remain truly anonymous while maintaining security and ease of use.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### User Panel
 
-## Learn More
+- User authentication and account management.
+- Unique username enforcement with debouncing.
+- Receive anonymous messages via a personal link.
+- AI-powered message suggestions using **Gemini**.
+- Email verification using **Resend**.
 
-To learn more about Next.js, take a look at the following resources:
+## Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Frontend:** Next.js, TypeScript, ShadCN UI
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB
+- **Authentication:** NextAuth.js
+- **Email Verification:** Resend
+- **AI Integration:** Gemini
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Installation
 
-## Deploy on Vercel
+### Prerequisites
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Ensure you have the following installed:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Node.js** (v16+ recommended)
+- **MongoDB** (Local or Atlas)
+
+### Steps to Run Locally
+
+1. Clone the repository:
+
+2. Install dependencies:
+
+3. Set up environment variables by creating a `.env` file:
+
+4. Start the development server:
+
+   The app will be available at [http://localhost:3000](http://localhost:3000)
+
+## Deployment
+
+The application is hosted on **Vercel**. You can try the live version here:
+[https://true-feedback-e1qa.vercel.app/)
+
+### Test Credentials
+
+To try out the platform, use the following credentials:
+
+- **Email:** newuser03@gmail.com
+- **Password:** 12345678
+
+## Development Roadmap
+
+- Enhance AI message suggestions.
+- Improve UI and add customization options.
+- Introduce message filtering and moderation options.
+
+## Contributing
+
+Feel free to contribute by opening an issue or submitting a pull request.
+
+
